@@ -1,2 +1,2 @@
 # LearningTask
-Files in this folder is  a public one, used for learning Python. 
+Files in this folder are public, used for learning Python. 
