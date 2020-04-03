@@ -28,6 +28,7 @@ def josephus(n, k):
         # step 5: p=2%2=0 kill total[0] = 1, total[] = [5]
 
         print ('kill:%d' % (total[p]))
+        # list.pop can also be used for deleting items in list and return items
         del total[p]
     print ('survive:%d' % (total[0]))
 
