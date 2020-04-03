@@ -5,6 +5,7 @@
 # description:
 #           Counting from the first person, when count to the step value, he must commit suicide, 
 #           and then report again from the next, until everyone suicide.
+# Author: Chris Wang
 
 def josephus(n, k):
     if k == 1:
