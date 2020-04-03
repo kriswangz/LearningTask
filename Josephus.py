@@ -33,5 +33,9 @@ def josephus(n, k):
     print ('survive:%d' % (total[0]))
 
 josephus(6, 3)
+<<<<<<< HEAD
 
 ####
+=======
+############################
+>>>>>>> ef76c9c0ef84096f0ee9aa2d9615505979c08b35
