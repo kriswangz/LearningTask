@@ -15,7 +15,7 @@ def josephus(n, k):
     total = []
     for i in range(1, n+1):
         total.append(i)
-
+# list[range(1,n+1)]
     p = 0       # index point
     while True:
         if len(total) == 1:
