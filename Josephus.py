@@ -1,3 +1,5 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
 # The program is used for solving josephus promblem.
 # character:
 #           n: total numbers
