@@ -9,33 +9,28 @@
 #           and then report again from the next, until everyone suicide.
 # Author: Chris Wang
 
-def josephus(n, k):
-    if k == 1:
-        print('survive:%d' % (n))
-        return
-# generate person list. [1,2...n]
-    total = []
-    for i in range(1, n+1):
-        total.append(i)
 
-    # total1 = [x for x in range(1,n+1)]
-    # print(total1)
+def josephus(total, step, start = 0):
+    
+    n = len(total)
+    if n == 1:
+        return total[0]
 
-    p = 0       # index point
-    while True:
+    p = start       # index point
+    for i in range(n):
         if len(total) == 1:
             break
-        p = (p + (k - 1)) % len(total)
 
-        # step 1: p=1 kill total[1] = 2, total[] = [1,3,4,5,6]
-        # step 2: p=2 kill total[2] = 3, total[] = [1,3,5,6]
-        # step 3: p=3 kill total[3] = 4, total[] = [1,3,5]
-        # step 4: p=4%3=1 kill total[1] = 3, total[] = [1,5]
-        # step 5: p=2%2=0 kill total[0] = 1, total[] = [5]
+        p = (p + (step - 1)) % len(total)
 
-        print ('kill:%d' % (total[p]))
-        # list.pop can also be used for deleting items in list and return items
         del total[p]
-    print ('survive:%d' % (total[0]))
+    return total[0]
 
-josephus(6, 3)
+total = []
+n = 1
+step = 2
+for i in range(1, n+1):
+    total.append(i)
+
+survive = josephus(total, step)
+print("survive:",survive)
