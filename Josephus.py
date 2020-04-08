@@ -3,9 +3,9 @@
 
 # The program is used for solving josephus promblem.
 # character:
-#           n: total numbers
-#           k: step value
-#           start: start point
+#           total: total chars, names included.
+#           step: step value.
+#           start: start point.
 # description:
 #           Counting from the first person, when count to the step value, he must commit suicide, 
 #           and then report again from the next, until everyone suicide.
@@ -36,6 +36,6 @@ total = ["Chris", "Anna", "Bob", "David"]
 step = 1
 start = 0
 
-joseph = Josephus(total, step, 0)
+joseph = Josephus(total, step, start)
 survive = joseph.judge_survive()
 print("survive:",survive)
