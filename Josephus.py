@@ -28,9 +28,9 @@ class Josephus:
                 break
 
             p = (p + (self.step - 1)) % len(self.total)
-            total.pop(p)
+            self.total.pop(p)
 
-        return self.total[0]     #return survive people.
+        return self.total[0]     #return survive people's index.
 
 total = ["Chris", "Anna", "Bob", "David"]
 step = 1
