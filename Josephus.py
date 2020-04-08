@@ -1,36 +1,41 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # The program is used for solving josephus promblem.
 # character:
 #           n: total numbers
 #           k: step value
+#           start: start point
 # description:
 #           Counting from the first person, when count to the step value, he must commit suicide, 
 #           and then report again from the next, until everyone suicide.
 # Author: Chris Wang
-
-
-def josephus(total, step, start = 0):
+class Josephus:
+    def __init__(self, total, step, start):
+        self.total = total
+        self.step = step
+        self.start = start
     
-    n = len(total)
-    if n == 1:
-        return total[0]
+    def judge_survive(self):
+        n = int(len(self.total))
 
-    p = start       # index point
-    for i in range(n):
-        if len(total) == 1:
-            break
+        if n == 1:
+            return self.total[0]
 
-        p = (p + (step - 1)) % len(total)
+        p = self.start       # index point
+        for i in range(n):
+            if len(self.total) == 1:
+                break
 
-        del total[p]
-    return total[0]
+            p = (p + (self.step - 1)) % len(self.total)
+            total.pop(p)
 
-total = []
-n = 1
-step = 2
-for i in range(1, n+1):
-    total.append(i)
+        return self.total[0]     #return survive people.
 
-survive = josephus(total, step)
+total = ["Chris", "Anna", "Bob", "David"]
+step = 1
+start = 0
+
+joseph = Josephus(total, step, 0)
+survive = joseph.judge_survive()
 print("survive:",survive)
