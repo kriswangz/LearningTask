@@ -9,7 +9,7 @@
 #           start: start point.
 # description:
 #           Counting from the first person, when count to the step value, he must commit suicide, 
-#           and then report again from the next, until everyone suicide.
+#           and then report again from the next, until the last one.
 # Author: Chris Wang
 
 class Josephus:
