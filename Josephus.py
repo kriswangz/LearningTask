@@ -21,7 +21,7 @@ class Josephus:
         self.step = step
         self.start = start
 
-    def judge_survive(self):
+    def judge_survivor(self):
         p = self.start       # index point
 
         for i in range(len(self.rings)):
@@ -50,13 +50,17 @@ class  CreateRings:
 
         return self.rings
 
-name = {0:['Chris','24'], 1:['Anna','18'], 3:["Bob",'30'], 4:["David",'21']}
+name = {0:['Chris','24','male'], 1:['Anna','18','female'], 3:["Bob",'30','male'], 4:["David",'21','male']}
 step = 2
 start = 0
+name_offset = 0 # offset index in return list ['name', 'age', 'gender']
+age_offset = 1
+gender_offset = 2
 
-rings = CreateRings(name)
-ring = rings.create_rings()  # generate rings [0..n] n=len(name)
+ring = CreateRings(name)
+rings = ring.create_rings()  # generate rings [0..n] n=len(name)
 
-joseph = Josephus(ring, step, start)
-survive = joseph.judge_survive() # return index value in rings
-print("survive is %s, age is %s" %(name[survive][0],name[survive][1]))
+joseph = Josephus(rings, step, start)
+survivor = joseph.judge_survivor() # return index value in rings, ['name', 'age',  'gender'] included.
+print("Survivor's name is %s, age is %s, gender is %s" 
+        % (name[survivor][name_offset],name[survivor][age_offset],name[survivor][gender_offset]))
