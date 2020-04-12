@@ -1,5 +1,5 @@
 # %%
-#!/usr/bin/python
+#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
 # The program is used for solving josephus promblem.
