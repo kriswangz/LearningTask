@@ -3,10 +3,6 @@
 # -*- coding: utf-8 -*-
 
 # The program is used for solving josephus promblem.
-# character:
-#           name: total characters, names included.
-#           step: step value.
-#           start: start point.
 # description:
 #           Counting from the first person, when count to the step value, he must commit suicide, 
 #           and then report again from the next, until the last one.
@@ -14,7 +10,15 @@
 
 class Josephus:
     """
-    input rings([0,1..n]), this class will output the survivor index numbers in rings.
+     this class will output the survivor index numbers in rings.
+
+    Attributes:
+        rings: An input ring([0,1..n]) for Josephus problem's items.
+        step: step value.
+        start: start person.
+
+    Returns:
+        judge_survivor: return survive people's index in a ring like 0(rings[0]).
     """
     def __init__(self, rings, step, start):
         self.rings = rings
@@ -31,11 +35,17 @@ class Josephus:
             p = (p + (self.step - 1)) % len(self.rings)
             self.rings.pop(p)
 
-        return self.rings[0]     #return survive people's index.
+        return self.rings[0]    
 
 class  CreateRings:
     """
-    convert name items to rings, use numbers instead of complex characters like dictionary
+    convert name items to rings, use numbers instead of complex characters like dictionary.
+
+    Attributes:
+        name: people's characters like name, age and gender.
+
+    Return:
+        rings: from input items to rings[0..n]
     """
     def __init__(self, name):
         self.name = name
