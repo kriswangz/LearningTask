@@ -59,18 +59,19 @@ class  CreateRings:
         self.rings = [i for i in range(length)]
 
         return self.rings
+        
+if __name__ == '__main__':
+    name = {0:['Chris','24','male'], 1:['Anna','18','female'], 3:["Bob",'30','male'], 4:["David",'21','male']}
+    step = 2
+    start = 0
+    name_offset = 0 # offset index in return list ['name', 'age', 'gender']
+    age_offset = 1
+    gender_offset = 2
 
-name = {0:['Chris','24','male'], 1:['Anna','18','female'], 3:["Bob",'30','male'], 4:["David",'21','male']}
-step = 2
-start = 0
-name_offset = 0 # offset index in return list ['name', 'age', 'gender']
-age_offset = 1
-gender_offset = 2
+    ring = CreateRings(name)
+    rings = ring.create_rings()  # generate rings [0..n] n=len(name)
 
-ring = CreateRings(name)
-rings = ring.create_rings()  # generate rings [0..n] n=len(name)
-
-joseph = Josephus(rings, step, start)
-survivor = joseph.judge_survivor() # return index value in rings, ['name', 'age',  'gender'] included.
-print("Survivor's name is %s, age is %s, gender is %s" 
-        % (name[survivor][name_offset],name[survivor][age_offset],name[survivor][gender_offset]))
+    joseph = Josephus(rings, step, start)
+    survivor = joseph.judge_survivor() # return index value in rings, ['name', 'age',  'gender'] included.
+    print("Survivor's name is %s, age is %s, gender is %s" 
+            % (name[survivor][name_offset],name[survivor][age_offset],name[survivor][gender_offset]))
