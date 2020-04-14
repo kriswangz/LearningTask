@@ -9,70 +9,67 @@
 # Author: Chris Wang
 
 
-class Josephus:
+class Ring(object):
     """
-     this class will output the survivor index numbers in rings.
+     this class is used for solving Josephus problem.
 
-    Attributes:
-        rings: An input ring([0,1..n]) for Josephus problem's items.
-        step: step value.
-        start: start person.
-
-    Returns:
-        judge_survivor: return survive people's index in a ring like 0(rings[0]).
     """
 
-    def __init__(self, rings, step, start):
-        self.rings = rings
-        self.step = step
-        self.start = start
+    def __init__(self):
+        self.start = 0
+        self.step = 1
+        self.people = []
+        self.temp = []
 
-    def judge_survivor(self):
-        p = self.start       # index point
+    def append(self, index):
+        self.people.append(index)
+        return self.people
 
-        for i in range(len(self.rings)):
-            if len(self.rings) == 1:
-                break
+    def pop(self, index):
+        self.people.pop(index)
+        return self.people
 
-            p = (p + (self.step - 1)) % len(self.rings)
-            self.rings.pop(p)
+    def remove_src(self, src):
+        self.people.pop(src)
+        return self.people
 
-        return self.rings[0]
+    def query_list_all(self):
+        return self.people
+
+    def query_list_one(self, index):
+        return self.people[index]
+
+    def reset(self):
+        self.current_id = self.start
+        self.temp = self.people
+        return
+
+    def kill_next(self):
+        self.temp = self.people
+        size = len(self.temp)
+        if(size == 0):
+            return None
+        _id = (self.current_id + self.step - 1) % (size)
+        res = self.temp.pop(_id)
+        return res
 
 
-def create_rings(name):
-    """
-    convert name items to rings, use numbers instead of complex characters like dictionary.
+ring = Ring()
+ring.start = 0
+ring.step = 4
+ring.append(['chris', '24', 'male'])
+ring.append(['Anna', '20', 'femal'])
+ring.append(['Bob', '30', 'male'])
+ring.append(['David', '20', 'male'])
 
-    Attributes:
-        name: people's characters like name, age and gender.
+ring.reset()
 
-    Return:
-        rings: from input items to rings[0..n]
-    """
-    length = int(len(name))
-
-    if length == 1:
-        return [0]
-
-    rings = [i for i in range(length)]
-
-    return rings
-
-
-if __name__ == '__main__':
-    name = {0: ['Chris', '24', 'male'], 1: ['Anna', '18', 'female'],
-            3: ["Bob", '30', 'male'], 4: ["David", '21', 'male']}
-    step = 2
-    start = 0
-    name_offset = 0  # offset index in return list ['name', 'age', 'gender']
-    age_offset = 1
-    gender_offset = 2
-
-    rings = create_rings(name)  # generate rings [0..n] n=len(name)
-
-    joseph = Josephus(rings, step, start)
-    # return index value in rings, ['name', 'age',  'gender'] included.
-    survivor = joseph.judge_survivor()
-    print("Survivor's name is %s, age is %s, gender is %s"
-          % (name[survivor][name_offset], name[survivor][age_offset], name[survivor][gender_offset]))
+res = ring.query_list_all()
+size_res = len(res)
+for i in range(size_res):
+    some_one = ring.kill_next()
+    if some_one == None:
+        break
+    if i == size_res - 1:
+        print("Survivor's name is %s, age is %s, gender is %s" %
+              (some_one[0], some_one[1], some_one[2]))
