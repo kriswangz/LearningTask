@@ -7,7 +7,10 @@
 #           Counting from the first person, when count to the step value, he must commit suicide,
 #           and then report again from the next, until the last one.
 # Author: Chris Wang
-
+import csv
+import os
+import fileinput
+import zipfile
 
 class Ring(object):
     """
@@ -45,31 +48,57 @@ class Ring(object):
         return
 
     def kill_next(self):
-        self.temp = self.people
         size = len(self.temp)
         if(size == 0):
             return None
-        _id = (self.current_id + self.step - 1) % (size)
-        res = self.temp.pop(_id)
+        id_ = (self.current_id + self.step - 1) % (size)
+        res = self.temp.pop(id_)
         return res
 
 
-ring = Ring()
-ring.start = 0
-ring.step = 4
-ring.append(['chris', '24', 'male'])
-ring.append(['Anna', '20', 'femal'])
-ring.append(['Bob', '30', 'male'])
-ring.append(['David', '20', 'male'])
+def read_csv(dirctory, mode):
+    cache = []
+    with open(dirctory, mode) as csvfile:
+        read_csv = csv.reader(csvfile, delimiter=',')
+        for row in read_csv:
+            cache.append(row)
+        cache.pop(0)          # delete the first line(not used)
+        return cache
 
-ring.reset()
 
-res = ring.query_list_all()
-size_res = len(res)
-for i in range(size_res):
-    some_one = ring.kill_next()
-    if some_one == None:
-        break
-    if i == size_res - 1:
-        print("Survivor's name is %s, age is %s, gender is %s" %
-              (some_one[0], some_one[1], some_one[2]))
+def read_txt(dirctory, mode):
+    cache = []
+    with open(dirctory, mode) as fp:
+        read_txt = fp.readlines()
+        for row in read_txt:
+            row = row.strip('\n')   # delete '\n'
+            # convert 1-dio list to 2-dio list like [, , ,]  -->>  [[,], [,], [,]]
+            row = row.split(',')
+            cache.append(row)
+        cache.pop(0)          # delete the first line
+        return cache
+
+
+if __name__ == '__main__':
+    people_data = read_txt('.\data\people.txt', 'r')
+
+    ring = Ring()                   # init a ring
+    ring.start = 0
+    ring.step = 2
+
+    for row in people_data:             # add list in a ring
+        ring.append(row)
+
+    ring.reset()
+
+    res = ring.query_list_all()
+    # print(res)
+    size_res = len(res)
+
+    for i in range(size_res):
+        some_one = ring.kill_next()
+        if some_one == None:
+            break
+        if i == size_res - 1:
+            print("Survivor's name is %s, age is %s, gender is %s" %
+                  (some_one[0], some_one[1], some_one[2]))
