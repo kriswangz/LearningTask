@@ -9,9 +9,11 @@
 # Author: Chris Wang
 import csv
 import os
+import os.path
 import fileinput
 import zipfile
-
+import copy
+  
 class Ring(object):
     """
      this class is used for solving Josephus problem.
@@ -44,7 +46,7 @@ class Ring(object):
 
     def reset(self):
         self.current_id = self.start
-        self.temp = self.people
+        self.temp = copy.deepcopy(self.people)
         return
 
     def kill_next(self):
@@ -54,7 +56,19 @@ class Ring(object):
         id_ = (self.current_id + self.step - 1) % (size)
         res = self.temp.pop(id_)
         return res
-
+        
+    # yield 减少对self状态的依赖
+    def iter(self):
+            temp = copy.deepcopy(self.people)
+            size = len(temp)
+            start = copy.deepcopy(self.start)
+            step = copy.deepcopy(self.step)
+            if(size == 0):
+                return None
+            while True:
+                id_ = (start + step - 1) % (size)
+                res = temp.pop(id_)
+                yield res
 
 def read_csv(dirctory, mode):
     cache = []
@@ -84,7 +98,7 @@ if __name__ == '__main__':
 
     ring = Ring()                   # init a ring
     ring.start = 0
-    ring.step = 2
+    ring.step = 1
 
     for row in people_data:             # add list in a ring
         ring.append(row)
@@ -92,13 +106,20 @@ if __name__ == '__main__':
     ring.reset()
 
     res = ring.query_list_all()
-    # print(res)
+  
     size_res = len(res)
+    #print(res)
+    # for i in range(size_res):
+    #     some_one = ring.kill_next()
 
+
+    generator = ring.iter()
     for i in range(size_res):
-        some_one = ring.kill_next()
+        some_one = next(generator)
         if some_one == None:
             break
         if i == size_res - 1:
             print("Survivor's name is %s, age is %s, gender is %s" %
                   (some_one[0], some_one[1], some_one[2]))
+        else:
+            continue
