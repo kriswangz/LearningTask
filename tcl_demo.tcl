@@ -1,2 +1,0 @@
-
- vivado tcl demo1 
