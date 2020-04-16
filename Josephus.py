@@ -13,7 +13,8 @@ import os.path
 import fileinput
 import zipfile
 import copy
-  
+
+
 class Ring(object):
     """
      this class is used for solving Josephus problem.
@@ -23,52 +24,55 @@ class Ring(object):
     def __init__(self):
         self.start = 0
         self.step = 1
-        self.people = []
-        self.temp = []
+        self.__people = []
+        self.__temp = []
+
+    def __str__(self):
+        return len(self.__people)
 
     def append(self, index):
-        self.people.append(index)
-        return self.people
+        self.__people.append(index)
+        return self.__people
 
     def pop(self, index):
-        self.people.pop(index)
-        return self.people
+        self.__people.pop(index)
+        return self.__people
 
     def remove_src(self, src):
-        self.people.pop(src)
-        return self.people
+        self.__people.pop(src)
+        return self.__people
 
     def query_list_all(self):
-        return self.people
+        return self.__people
 
     def query_list_one(self, index):
-        return self.people[index]
+        return self.__people[index]
 
     def reset(self):
-        self.current_id = self.start
-        self.temp = copy.deepcopy(self.people)
+        self.__current_id = self.start
+        self.__temp = copy.deepcopy(self.__people)
         return
 
     def kill_next(self):
-        size = len(self.temp)
+        size = len(self.__temp)
         if(size == 0):
             return None
-        id_ = (self.current_id + self.step - 1) % (size)
+        id_ = (self.__current_id + self.step - 1) % (size)
         res = self.temp.pop(id_)
         return res
-        
-    # yield 减少对self状态的依赖
+
     def iter(self):
-            temp = copy.deepcopy(self.people)
-            size = len(temp)
-            start = copy.deepcopy(self.start)
-            step = copy.deepcopy(self.step)
-            if(size == 0):
-                return None
-            while True:
-                id_ = (start + step - 1) % (size)
-                res = temp.pop(id_)
-                yield res
+        temp = copy.deepcopy(self.__people)
+        size = len(temp)
+        start = copy.deepcopy(self.start)
+        step = copy.deepcopy(self.step)
+        if(size == 0):
+            return None
+        while True:
+            id_ = (start + step - 1) % (size)
+            res = temp.pop(id_)
+            yield res
+
 
 def read_csv(dirctory, mode):
     cache = []
@@ -106,12 +110,10 @@ if __name__ == '__main__':
     ring.reset()
 
     res = ring.query_list_all()
-  
+
     size_res = len(res)
-    #print(res)
     # for i in range(size_res):
     #     some_one = ring.kill_next()
-
 
     generator = ring.iter()
     for i in range(size_res):
