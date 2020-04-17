@@ -15,6 +15,17 @@ import zipfile
 import copy
 
 
+class Person(object):
+    """
+    create person class
+    """
+
+    def __init__(self, name, age, gender):
+        self.name = name
+        self.age = age
+        self.gender = gender
+
+
 class Ring(object):
     """
      this class is used for solving Josephus problem.
@@ -73,6 +84,17 @@ class Ring(object):
             res = temp.pop(id_)
             yield res
 
+# The format of each object should correspond to the parameters, 
+# the object should contain a total of 3 parameters name, age, gender.
+# Each line reads the order of participants from the file,
+#  which is create_person in the order of name, age, gender.
+def create_person(name, age, gender):
+    obj = Person(name, age, gender)
+    obj.name = name
+    obj.age = age
+    obj.gender = gender
+    return obj
+
 
 def read_csv(dirctory, mode):
     cache = []
@@ -99,18 +121,20 @@ def read_txt(dirctory, mode):
 
 if __name__ == '__main__':
     people_data = read_txt('./data/people.txt', 'r')
+    print(people_data)
 
     ring = Ring()                   # init a ring
     ring.start = 0
     ring.step = 1
 
-    for row in people_data:             # add list in a ring
-        ring.append(row)
+    for i in range(len(people_data)):             # add list in a ring
+        ring.append(create_person(
+            people_data[i][0], people_data[i][1], people_data[i][2]))
 
     ring.reset()
 
     res = ring.query_list_all()
-
+    print(res)
     size_res = len(res)
     # for i in range(size_res):
     #     some_one = ring.kill_next()
@@ -122,6 +146,6 @@ if __name__ == '__main__':
             break
         if i == size_res - 1:
             print("Survivor's name is %s, age is %s, gender is %s" %
-                  (some_one[0], some_one[1], some_one[2]))
+                  (some_one.name, some_one.age, some_one.gender))
         else:
             continue
