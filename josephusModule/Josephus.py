@@ -98,7 +98,7 @@ def read_txt(dirctory, mode):
 
 
 if __name__ == '__main__':
-    people_data = read_txt('.\data\people.txt', 'r')
+    people_data = read_txt('...\docs\people.txt', 'r')
 
     ring = Ring()                   # init a ring
     ring.start = 0
