@@ -66,10 +66,12 @@ class Ring(object):
 
     def kill_next(self):
         size = len(self.__temp)
+
         if(size == 0):
             return None
         id_ = (self.__current_id + self.step - 1) % (size)
         res = self.temp.pop(id_)
+
         return res
 
     def iter(self):
@@ -77,53 +79,48 @@ class Ring(object):
         size = len(temp)
         start = copy.deepcopy(self.start)
         step = copy.deepcopy(self.step)
+
         if(size == 0):
             return None
+
         while True:
             id_ = (start + step - 1) % (size)
             res = temp.pop(id_)
             yield res
-
-# class ReadFiles(object):
-#     def __init__(self, base_path = './', filename, mode = 'r'):
-#         self.base_path = base_path
-#         self.filename = filename
-#         self.mode = mode
-
-
-#         if(self.name == )
-
-#     def open():
-
 
 # The format of each object should correspond to the parameters,
 # the object should contain a total of 3 parameters name, age, gender.
 # Each line reads the order of participants from the file,
 # which is create_person in the order of name, age, gender.
 def create_person(name, age, gender):
+
     obj = Person(name, age, gender)
     obj.name = name
     obj.age = age
     obj.gender = gender
+
     return obj
 
 
-def read_csv(path='', mode='r'):
+def read_csv(path, filename, mode='r'):
     cache = []
-    with open(path, mode) as csvfile:
+    with open(path + '/' + filename, mode) as csvfile:
         read_csv = csv.reader(csvfile, delimiter=',')
+
         for row in read_csv:
             cache.append(row)
         cache.pop(0)          # delete the first line(not used)
     return cache
 
 
-def read_txt(path='', mode='r'):
+def read_txt(path, filename, mode='r'):
     cache = []
-    with open(path, mode) as fp:
+    with open(path + '/' + filename, mode) as fp:
         read_txt = fp.readlines()
+
         for row in read_txt:
             row = row.strip('\n')   # delete '\n'
+            row = row.strip('\r')   # delete '\r'
             # convert 1-dio list to 2-dio list like [, , ,]  -->>  [[,], [,], [,]]
             row = row.split(',')
             cache.append(row)
@@ -161,8 +158,8 @@ def read_zip(path, filename, mode='r'):
 
 
 if __name__ == '__main__':
-
-    people_data = read_zip('./data/data.zip', 'people.csv', 'r')
+    people_data = read_txt('./data', 'people.txt', 'r')
+    # people_data = read_zip('./data/data.zip', 'people.csv', 'r')
     print(people_data)
 
     ring = Ring()                   # init a ring
@@ -178,8 +175,6 @@ if __name__ == '__main__':
 
     res = ring.query_list_all()
     size_res = len(res)
-    # for i in range(size_res):
-    #     some_one = ring.kill_next()
 
     generator = ring.iter()
     for i in range(size_res):
