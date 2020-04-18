@@ -84,10 +84,22 @@ class Ring(object):
             res = temp.pop(id_)
             yield res
 
-# The format of each object should correspond to the parameters, 
+# class ReadFiles(object):
+#     def __init__(self, base_path = './', filename, mode = 'r'):
+#         self.base_path = base_path
+#         self.filename = filename
+#         self.mode = mode
+
+
+#         if(self.name == )
+
+#     def open():
+
+
+# The format of each object should correspond to the parameters,
 # the object should contain a total of 3 parameters name, age, gender.
 # Each line reads the order of participants from the file,
-#  which is create_person in the order of name, age, gender.
+# which is create_person in the order of name, age, gender.
 def create_person(name, age, gender):
     obj = Person(name, age, gender)
     obj.name = name
@@ -96,19 +108,19 @@ def create_person(name, age, gender):
     return obj
 
 
-def read_csv(dirctory, mode):
+def read_csv(path='', mode='r'):
     cache = []
-    with open(dirctory, mode) as csvfile:
+    with open(path, mode) as csvfile:
         read_csv = csv.reader(csvfile, delimiter=',')
         for row in read_csv:
             cache.append(row)
         cache.pop(0)          # delete the first line(not used)
-        return cache
+    return cache
 
 
-def read_txt(dirctory, mode):
+def read_txt(path='', mode='r'):
     cache = []
-    with open(dirctory, mode) as fp:
+    with open(path, mode) as fp:
         read_txt = fp.readlines()
         for row in read_txt:
             row = row.strip('\n')   # delete '\n'
@@ -116,25 +128,55 @@ def read_txt(dirctory, mode):
             row = row.split(',')
             cache.append(row)
         cache.pop(0)          # delete the first line
-        return cache
+    return cache
+
+
+def read_zip(path, filename, mode='r'):
+    cache = []
+    with zipfile.ZipFile(path, mode) as z:
+
+        namelist = z.namelist()
+        if filename not in namelist:
+            raise FileNotFoundError
+
+        filename_split = filename.split('.')
+        split_len = len(filename_split)
+        filename_suffix = filename_split[split_len - 1]
+
+        if filename_suffix == 'txt' or 'csv':
+            fp = z.open(filename)
+            read_txt = fp.readlines()
+            fp.close()
+
+            for row in read_txt:
+                row = bytes.decode(row)
+                row = row.strip('\n')   # delete '\n'
+                row = row.strip('\r')   # delete '\r'
+                row = row.split(',')
+                cache.append(row)
+            cache.pop(0)
+        else:
+            raise FileExistsError
+    return cache
 
 
 if __name__ == '__main__':
-    people_data = read_txt('./data/people.txt', 'r')
+
+    people_data = read_zip('./data/data.zip', 'people.csv', 'r')
     print(people_data)
 
     ring = Ring()                   # init a ring
     ring.start = 0
     ring.step = 1
 
-    for i in range(len(people_data)):             # add list in a ring
+    for row in range(len(people_data)):
+        # add list in a ring
         ring.append(create_person(
-            people_data[i][0], people_data[i][1], people_data[i][2]))
+            people_data[row][0], people_data[row][1], people_data[row][2]))
 
     ring.reset()
 
     res = ring.query_list_all()
-    print(res)
     size_res = len(res)
     # for i in range(size_res):
     #     some_one = ring.kill_next()
