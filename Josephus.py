@@ -18,9 +18,11 @@ description:
             data = read_data([obj], [path], [filename], [mode])
 
             obj: Read_txt  Read_csv   Read_zip 
+
             path: Relative path and absolute path are supported. 
                     In particular, when reading zip files, path should add ./[filename].zip
                     into your path.
+                    
             filename: [filename].txt   [filename].csv , others type are not supported.
 
             mode: read only in general. 
