@@ -122,6 +122,8 @@ def str2list_row(row):
     row = row.split(',')
 
     return row
+
+
 class Read_csv(Read_file):
 
     def read(self, path, filename, mode='r'):
@@ -144,7 +146,7 @@ class Read_txt(Read_file):
             read_txt = fp.readlines()
 
             for row in read_txt:
-                row  = str2list_row(row)
+                row = str2list_row(row)
                 cache.append(row)
             cache.pop(0)          # delete the first line
 
@@ -152,7 +154,11 @@ class Read_txt(Read_file):
 
 
 class Read_zip(Read_file):
-
+    """
+    only read .csv and .txt files function in zip files is supported.
+    if u wanna support more file types, please add your program in 
+    this read definition.
+    """
     def read(self, path, filename, mode='r'):
         cache = []
         with zipfile.ZipFile(path, mode) as z:
@@ -161,6 +167,7 @@ class Read_zip(Read_file):
             if filename not in namelist:
                 raise FileNotFoundError
 
+            # get files suffix and judge
             filename_split = filename.split('.')
             split_len = len(filename_split)
             filename_suffix = filename_split[split_len - 1]
@@ -172,7 +179,7 @@ class Read_zip(Read_file):
 
                 for row in read_txt:
                     row = bytes.decode(row)
-                    row  = str2list_row(row)
+                    row = str2list_row(row)
                     cache.append(row)
                 cache.pop(0)
             else:
