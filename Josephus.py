@@ -180,6 +180,7 @@ class Read_zip(Read_file):
     if u wanna support more file types, please add your program in 
     this read definition.
     """
+
     def read(self, path, filename, mode='r'):
         cache = []
         with zipfile.ZipFile(path, mode) as z:
