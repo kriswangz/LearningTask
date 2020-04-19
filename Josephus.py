@@ -102,64 +102,81 @@ def create_person(name, age, gender):
     return obj
 
 
-def read_csv(path, filename, mode='r'):
-    cache = []
-    with open(path + '/' + filename, mode) as csvfile:
-        read_csv = csv.reader(csvfile, delimiter=',')
+class Read_file(object):
+    """
+    interface class, for smooth reading.
+    """
+    def read(self, path, filename, mode='r'):
+        raise NotImplementedError
 
-        for row in read_csv:
-            cache.append(row)
-        cache.pop(0)          # delete the first line(not used)
-    return cache
+class Read_csv(Read_file):
+    
+    def read(self, path, filename, mode='r'):
+        cache = []
+        with open(path + '/' + filename, mode) as csvfile:
+            read_csv = csv.reader(csvfile, delimiter=',')
 
+            for row in read_csv:
+                cache.append(row)
+            cache.pop(0)          # delete the first line(not used)
+        return cache
+       
+class Read_txt(Read_file):
 
-def read_txt(path, filename, mode='r'):
-    cache = []
-    with open(path + '/' + filename, mode) as fp:
-        read_txt = fp.readlines()
-
-        for row in read_txt:
-            row = row.strip('\n')   # delete '\n'
-            row = row.strip('\r')   # delete '\r'
-            # convert 1-dio list to 2-dio list like [, , ,]  -->>  [[,], [,], [,]]
-            row = row.split(',')
-            cache.append(row)
-        cache.pop(0)          # delete the first line
-    return cache
-
-
-def read_zip(path, filename, mode='r'):
-    cache = []
-    with zipfile.ZipFile(path, mode) as z:
-
-        namelist = z.namelist()
-        if filename not in namelist:
-            raise FileNotFoundError
-
-        filename_split = filename.split('.')
-        split_len = len(filename_split)
-        filename_suffix = filename_split[split_len - 1]
-
-        if filename_suffix == 'txt' or 'csv':
-            fp = z.open(filename)
+    def read(self, path, filename, mode='r'):
+        cache = []
+        with open(path + '/' + filename, mode) as fp:
             read_txt = fp.readlines()
-            fp.close()
 
             for row in read_txt:
-                row = bytes.decode(row)
                 row = row.strip('\n')   # delete '\n'
                 row = row.strip('\r')   # delete '\r'
+                # convert 1-dio list to 2-dio list like [, , ,]  -->>  [[,], [,], [,]]
                 row = row.split(',')
                 cache.append(row)
-            cache.pop(0)
-        else:
-            raise FileExistsError
+            cache.pop(0)          # delete the first line
+        return cache
+
+class Read_zip(Read_file):
+
+    def read(self, path, filename, mode='r'):
+        cache = []
+        with zipfile.ZipFile(path, mode) as z:
+
+            namelist = z.namelist()
+            if filename not in namelist:
+                raise FileNotFoundError
+
+            filename_split = filename.split('.')
+            split_len = len(filename_split)
+            filename_suffix = filename_split[split_len - 1]
+
+            if filename_suffix == 'txt' or 'csv':
+                fp = z.open(filename)
+                read_txt = fp.readlines()
+                fp.close()
+
+                for row in read_txt:
+                    row = bytes.decode(row)
+                    row = row.strip('\n')   # delete '\n'
+                    row = row.strip('\r')   # delete '\r'
+                    row = row.split(',')
+                    cache.append(row)
+                cache.pop(0)
+            else:
+                raise FileExistsError
+        return cache
+        
+def read_data(file_obj, path, filename, mode):
+    cache = []
+    cache = file_obj.read(path, filename, mode)
     return cache
 
 
 if __name__ == '__main__':
-    people_data = read_txt('./data', 'people.txt', 'r')
-    # people_data = read_zip('./data/data.zip', 'people.csv', 'r')
+    # people_data_txt = read_data(Read_txt(), './data', 'people.txt', 'r')
+    # people_data_csv = read_data(Read_csv(), './data', 'people.txt', 'r')
+    people_data_zip = read_data(Read_zip(), './data/data.zip', 'people.txt', 'r')
     print(people_data)
 
     ring = Ring()                   # init a ring
