@@ -15,15 +15,15 @@ description:
         
         read_data's input type is below:
 
-        data = read_data([obj], [path], [filename], [mode])
+            data = read_data([obj], [path], [filename], [mode])
 
-        obj: Read_txt  Read_csv   Read_zip 
-        path: Relative path and absolute path are supported. 
-                In particular, when reading zip files, path should add ./[filename].zip
-                into your path.
-        filename: [filename].txt   [filename].csv , others type are not supported.
+            obj: Read_txt  Read_csv   Read_zip 
+            path: Relative path and absolute path are supported. 
+                    In particular, when reading zip files, path should add ./[filename].zip
+                    into your path.
+            filename: [filename].txt   [filename].csv , others type are not supported.
 
-        mode: read only in general. 
+            mode: read only in general. 
 
         Author: Chris Wang
 """
