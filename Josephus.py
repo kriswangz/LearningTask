@@ -92,6 +92,8 @@ class Ring(object):
 # the object should contain a total of 3 parameters name, age, gender.
 # Each line reads the order of participants from the file,
 # which is create_person in the order of name, age, gender.
+
+
 def create_person(name, age, gender):
 
     obj = Person(name, age, gender)
@@ -106,11 +108,22 @@ class Read_file(object):
     """
     interface class, for smooth reading.
     """
+
     def read(self, path, filename, mode='r'):
         raise NotImplementedError
 
+
+def str2list_row(row):
+    """
+    convert 1-dio list to 2-dio list like [, , ,]  -->>  [[,], [,], [,]]
+    """
+    row = row.strip('\n')   # delete '\n'
+    row = row.strip('\r')   # delete '\r'
+    row = row.split(',')
+
+    return row
 class Read_csv(Read_file):
-    
+
     def read(self, path, filename, mode='r'):
         cache = []
         with open(path + '/' + filename, mode) as csvfile:
@@ -119,8 +132,10 @@ class Read_csv(Read_file):
             for row in read_csv:
                 cache.append(row)
             cache.pop(0)          # delete the first line(not used)
+
         return cache
-       
+
+
 class Read_txt(Read_file):
 
     def read(self, path, filename, mode='r'):
@@ -129,13 +144,12 @@ class Read_txt(Read_file):
             read_txt = fp.readlines()
 
             for row in read_txt:
-                row = row.strip('\n')   # delete '\n'
-                row = row.strip('\r')   # delete '\r'
-                # convert 1-dio list to 2-dio list like [, , ,]  -->>  [[,], [,], [,]]
-                row = row.split(',')
+                row  = str2list_row(row)
                 cache.append(row)
             cache.pop(0)          # delete the first line
+
         return cache
+
 
 class Read_zip(Read_file):
 
@@ -158,15 +172,15 @@ class Read_zip(Read_file):
 
                 for row in read_txt:
                     row = bytes.decode(row)
-                    row = row.strip('\n')   # delete '\n'
-                    row = row.strip('\r')   # delete '\r'
-                    row = row.split(',')
+                    row  = str2list_row(row)
                     cache.append(row)
                 cache.pop(0)
             else:
                 raise FileExistsError
+
         return cache
-        
+
+
 def read_data(file_obj, path, filename, mode):
     cache = []
     cache = file_obj.read(path, filename, mode)
@@ -174,10 +188,10 @@ def read_data(file_obj, path, filename, mode):
 
 
 if __name__ == '__main__':
-    # people_data_txt = read_data(Read_txt(), './data', 'people.txt', 'r')
-    # people_data_csv = read_data(Read_csv(), './data', 'people.txt', 'r')
-    people_data_zip = read_data(Read_zip(), './data/data.zip', 'people.txt', 'r')
-    print(people_data)
+    # people_data = read_data(Read_txt(), './data', 'people.txt', 'r')
+    # people_data = read_data(Read_csv(), './data', 'people.txt', 'r')
+    people_data = read_data(
+        Read_zip(), './data/data.zip', 'people.txt', 'r')
 
     ring = Ring()                   # init a ring
     ring.start = 0
@@ -191,13 +205,17 @@ if __name__ == '__main__':
     ring.reset()
 
     res = ring.query_list_all()
-    size_res = len(res)
+    size_res = len(res)         # for iter loops.
 
-    generator = ring.iter()
+    generator = ring.iter()     # create iter, decrease the use of memory.
+
     for i in range(size_res):
+
         some_one = next(generator)
+
         if some_one == None:
             break
+
         if i == size_res - 1:
             print("Survivor's name is %s, age is %s, gender is %s" %
                   (some_one.name, some_one.age, some_one.gender))
