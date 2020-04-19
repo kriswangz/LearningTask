@@ -2,11 +2,32 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-# The program is used for solving josephus promblem.
-# description:
-#           Counting from the first person, when count to the step value, he must commit suicide,
-#           and then report again from the next, until the last one.
-# Author: Chris Wang
+"""
+The program is used for solving josephus promblem.
+
+description:
+        Counting from the first person, when count to the step value, he must commit suicide,
+        and then report again from the next, until the last one.
+        
+        people's characters like name, age and gender is saved in  txt, csv and zip files,
+        program can use read_data to extract data and create josephus rings, judge who is
+        the survivor.
+        
+        read_data's input type is below:
+
+        data = read_data([obj], [path], [filename], [mode])
+
+        obj: Read_txt  Read_csv   Read_zip 
+        path: Relative path and absolute path are supported. 
+                In particular, when reading zip files, path should add ./[filename].zip
+                into your path.
+        filename: [filename].txt   [filename].csv , others type are not supported.
+
+        mode: read only in general. 
+
+        Author: Chris Wang
+"""
+
 import csv
 import os
 import os.path
@@ -200,7 +221,7 @@ if __name__ == '__main__':
     people_data = read_data(
         Read_zip(), './data/data.zip', 'people.txt', 'r')
 
-    ring = Ring()                   # init a ring
+    ring = Ring()               # init a ring
     ring.start = 0
     ring.step = 1
 
