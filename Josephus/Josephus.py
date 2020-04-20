@@ -118,7 +118,7 @@ if __name__ == '__main__':
     # people_data = read_data(Read_txt(), './data', 'people.txt', 'r')
     # people_data = read_data(Read_csv(), './data', 'people.txt', 'r')
     people_data = read_file.read_data(
-        read_file.Read_zip(), './read_file/data/data.zip', 'people.txt', 'r')
+        read_file.Read_zip(), './data/data.zip', 'people.txt', 'r')
     print(people_data)
     people_data.pop(0) # delete first line(not used).
 
