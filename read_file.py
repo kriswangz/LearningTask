@@ -24,6 +24,7 @@ Author: Chris Wang
 import csv
 import zipfile
 
+
 class Read_file(object):
     """
     interface class, for smooth reading.

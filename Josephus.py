@@ -11,16 +11,12 @@ description:
     
 Author: Chris Wang
 """
-import sys
-sys.path.append('./read_file')
-
-import read_file
-import copy
-import zipfile
-import fileinput
 import os
-
-
+import fileinput
+import zipfile
+import copy
+import sys
+import read_file
 
 class Person(object):
     """
@@ -42,7 +38,7 @@ class Ring(object):
         self.start = 0
         self.step = 1
         self.__people = []
-        self.__temp = []
+        self.__temp = []        # stage people list.
 
     def __str__(self):
         return len(self.__people)
@@ -71,26 +67,25 @@ class Ring(object):
         return
 
     def kill_next(self):
-        size = len(self.__temp)
 
         if(size == 0):
             return None
-        id_ = (self.__current_id + self.step - 1) % (size)
-        res = self.temp.pop(id_)
+        
+        id_ = (self.__current_id + self.step - 1) % (len(self.__temp))
+        res = self.__temp.pop(id_)
 
         return res
 
     def iter(self):
         temp = copy.deepcopy(self.__people)
         size = len(temp)
-        start = copy.deepcopy(self.start)
-        step = copy.deepcopy(self.step)
+        id_ = self.start
 
         if(size == 0):
             return None
 
-        while True:
-            id_ = (start + step - 1) % (size)
+        for i in range(size):
+            id_ = (id_ + self.step - 1) % (len(temp))
             res = temp.pop(id_)
             yield res
 
@@ -112,18 +107,19 @@ def create_person(name, age, gender):
 
     return obj
 
+
 if __name__ == '__main__':
     # people_data = read_data(Read_txt(), './data', 'people.txt', 'r')
     # people_data = read_data(Read_csv(), './data', 'people.txt', 'r')
     people_data = read_file.read_data(
         read_file.Read_zip(), './data/data.zip', 'people.txt', 'r')
-    
+
     people_data.pop(0)  # delete first line(not used).
     print("Total person:", people_data)
-    
+
     ring = Ring()               # init a ring class.
     ring.start = 0
-    ring.step = 1
+    ring.step = 2
 
     for row in range(len(people_data)):
         # add list in a ring.
