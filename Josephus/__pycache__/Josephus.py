@@ -74,7 +74,7 @@ class Ring(object):
 
         if(size == 0):
             return None
-        id_ = (self.__current_id + self.step - 1) % (silen(self.__temp)ze)
+        id_ = (self.__current_id + self.step - 1) % (len(self.__temp))
         res = self.__temp.pop(id_)
 
         return res
