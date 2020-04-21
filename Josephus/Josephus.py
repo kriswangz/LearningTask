@@ -11,14 +11,14 @@ description:
     
 Author: Chris Wang
 """
-
 import sys
 sys.path.append('./read_file')
-import os
-import fileinput
-import zipfile
-import copy
+
 import read_file
+import copy
+import zipfile
+import fileinput
+import os
 
 
 
@@ -94,12 +94,14 @@ class Ring(object):
             res = temp.pop(id_)
             yield res
 
+
 """
     The format of each object should correspond to the parameters,
     the object should contain a total of 3 parameters name, age, gender.
     Each line reads the order of participants from the file,
     which is create_person in the order of name, age, gender.
 """
+
 
 def create_person(name, age, gender):
 
@@ -110,18 +112,15 @@ def create_person(name, age, gender):
 
     return obj
 
-
-
- 
-
 if __name__ == '__main__':
     # people_data = read_data(Read_txt(), './data', 'people.txt', 'r')
     # people_data = read_data(Read_csv(), './data', 'people.txt', 'r')
     people_data = read_file.read_data(
         read_file.Read_zip(), './data/data.zip', 'people.txt', 'r')
-    print(people_data)
-    people_data.pop(0) # delete first line(not used).
-
+    
+    people_data.pop(0)  # delete first line(not used).
+    print("Total person:", people_data)
+    
     ring = Ring()               # init a ring class.
     ring.start = 0
     ring.step = 1
