@@ -97,6 +97,7 @@ class Ring:
 
             for row in read_txt:
                 row = read_file.str2list_row(row)
+    
                 obj.append(Person(row[0], row[1], row[2]))
 
         return obj
@@ -140,11 +141,12 @@ class Ring:
 
 
 if __name__ == '__main__':
-    #ring = Ring.create_from_txt_csv('./data', 'people.txt', 'r')
-    ring = Ring.create_from_zip('./data/data.zip', 'people.txt', 'r')
+    ring = Ring.create_from_txt_csv('./data', 'people.txt', 'r')
+    #ring = Ring.create_from_zip('./data/data.zip', 'people.txt', 'r')
     ring.start = 0
-    ring.step = 1
+    ring.step = 2
 
+    ring.pop(0)                 #删除第0行的无用数据
     ring.reset()
 
     res = ring.query_list_all()
