@@ -9,7 +9,7 @@ description:
         Counting from the first person, when count to the step value, he must commit suicide,
         and then report again from the next, until the last one.
     
-Author: Chris Wang
+Author: Chris Wang.
 """
 import os
 import fileinput
@@ -17,6 +17,8 @@ import zipfile
 import copy
 import sys
 import read_file
+import csv
+
 
 class Person(object):
     """
@@ -29,7 +31,7 @@ class Person(object):
         self.gender = gender
 
 
-class Ring(object):
+class Ring:
     """
      this class is used for solving Josephus problem.
     """
@@ -43,17 +45,14 @@ class Ring(object):
     def __str__(self):
         return len(self.__people)
 
-    def append(self, index):
-        self.__people.append(index)
-        return self.__people
+    def append(self, obj):
+        self.__people.append(obj)
 
     def pop(self, index):
         self.__people.pop(index)
-        return self.__people
 
     def remove_src(self, src):
         self.__people.pop(src)
-        return self.__people
 
     def query_list_all(self):
         return self.__people
@@ -70,7 +69,7 @@ class Ring(object):
 
         if(size == 0):
             return None
-        
+
         id_ = (self.__current_id + self.step - 1) % (len(self.__temp))
         res = self.__temp.pop(id_)
 
@@ -89,6 +88,48 @@ class Ring(object):
             res = temp.pop(id_)
             yield res
 
+    @classmethod
+    def create_from_txt_csv(cls, path, filename, mode):
+        obj = cls()
+
+        with open(path + '/' + filename, mode) as fp:
+            read_txt = fp.readlines()
+
+            for row in read_txt:
+                row = read_file.str2list_row(row)
+                obj.append(Person(row[0], row[1], row[2]))
+
+        return obj
+
+    @classmethod
+    def create_from_zip(cls, path, filename, mode):
+        obj = cls()
+
+        with zipfile.ZipFile(path, mode) as z:
+
+            namelist = z.namelist()
+            if filename not in namelist:
+                raise FileNotFoundError
+
+            # get files suffix and judge.
+            filename_split = filename.split('.')
+            split_len = len(filename_split)
+            filename_suffix = filename_split[split_len - 1]
+
+            if filename_suffix == 'txt' or 'csv':
+                fp = z.open(filename)
+                read_txt = fp.readlines()
+                fp.close()
+
+                for row in read_txt:
+                    row = bytes.decode(row)
+                    row = read_file.str2list_row(row)
+                    obj.append(Person(row[0], row[1], row[2]))
+            else:
+                raise FileExistsError
+
+        return obj
+
 
 """
     The format of each object should correspond to the parameters,
@@ -98,33 +139,11 @@ class Ring(object):
 """
 
 
-def create_person(name, age, gender):
-
-    obj = Person(name, age, gender)
-    obj.name = name
-    obj.age = age
-    obj.gender = gender
-
-    return obj
-
-
 if __name__ == '__main__':
-    # people_data = read_data(Read_txt(), './data', 'people.txt', 'r')
-    # people_data = read_data(Read_csv(), './data', 'people.txt', 'r')
-    people_data = read_file.read_data(
-        read_file.Read_zip(), './data/data.zip', 'people.txt', 'r')
-
-    people_data.pop(0)  # delete first line(not used).
-    print("Total person:", people_data)
-
-    ring = Ring()               # init a ring class.
+    #ring = Ring.create_from_txt_csv('./data', 'people.txt', 'r')
+    ring = Ring.create_from_zip('./data/data.zip', 'people.txt', 'r')
     ring.start = 0
-    ring.step = 2
-
-    for row in range(len(people_data)):
-        # add list in a ring.
-        ring.append(create_person(
-            people_data[row][0], people_data[row][1], people_data[row][2]))
+    ring.step = 1
 
     ring.reset()
 
