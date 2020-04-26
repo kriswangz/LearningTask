@@ -25,10 +25,20 @@ class Person(object):
     create person class.
     """
 
-    def __init__(self, name, age, gender):
+    def __init__(self, name='', age=' ', gender=''):
         self.name = name
         self.age = age
         self.gender = gender
+
+    @classmethod
+    def create_from_reader(cls, item):
+        obj = cls()
+        item = item.strip().split(',')
+        obj.name = item[0]
+        obj.age = item[1]
+        obj.gender = item[2]
+
+        return obj
 
 
 class Ring:
@@ -36,11 +46,15 @@ class Ring:
      this class is used for solving Josephus problem.
     """
 
-    def __init__(self):
+    def __init__(self, reader=None):
         self.start = 0
         self.step = 1
         self.__people = []
         self.__temp = []        # stage people list.
+
+        if reader:
+            for i in reader:
+                self.__people.append(Person.create_from_reader(i))
 
     def __str__(self):
         return len(self.__people)
@@ -59,7 +73,6 @@ class Ring:
 
     def query_list_one(self, index):
         return self.__people[index]
-
 
     def iter(self):
         temp = copy.deepcopy(self.__people)
@@ -83,7 +96,7 @@ class Ring:
 
             for row in read_txt:
                 row = read_file.str2list_row(row)
-    
+
                 obj.append(Person(row[0], row[1], row[2]))
 
         return obj
@@ -127,13 +140,17 @@ class Ring:
 
 
 if __name__ == '__main__':
-    ring = Ring.create_from_txt_csv('./data', 'people.txt', 'r')
+    #ring = Ring.create_from_txt_csv('./data', 'people.txt', 'r')
     #ring = Ring.create_from_zip('./data/data.zip', 'people.txt', 'r')
-    ring.start = 0
-    ring.step = 2
+    #ring = Ring()
 
-    ring.pop(0)                 #删除第0行的无用数据
-    ring.reset()
+    with open('./data/people.csv') as reader:
+        ring = Ring(reader)
+
+    ring.start = 0
+    ring.step = 1
+
+    ring.pop(0)  # 删除第0行的无用数据
 
     res = ring.query_list_all()
     size_res = len(res)         # for iter loops.
