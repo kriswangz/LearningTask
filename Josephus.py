@@ -60,20 +60,6 @@ class Ring:
     def query_list_one(self, index):
         return self.__people[index]
 
-    def reset(self):
-        self.__current_id = self.start
-        self.__temp = copy.deepcopy(self.__people)
-        return
-
-    def kill_next(self):
-
-        if(size == 0):
-            return None
-
-        id_ = (self.__current_id + self.step - 1) % (len(self.__temp))
-        res = self.__temp.pop(id_)
-
-        return res
 
     def iter(self):
         temp = copy.deepcopy(self.__people)
