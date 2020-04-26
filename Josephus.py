@@ -55,8 +55,11 @@ class Ring:
         if reader:
             for i in reader:
                 self.__people.append(Person.create_from_reader(i))
-
+    
     def __str__(self):
+        print('length of items:'len(self.__people))
+
+    def __len__(self):
         return len(self.__people)
 
     def append(self, obj):
@@ -147,6 +150,7 @@ if __name__ == '__main__':
     with open('./data/people.csv') as reader:
         ring = Ring(reader)
 
+    print(len(ring))
     ring.start = 0
     ring.step = 1
 
