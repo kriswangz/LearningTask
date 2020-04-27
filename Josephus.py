@@ -89,10 +89,7 @@ class Ring:
         size = len(temp)
         id_ = self.start
 
-        if(size == 0):
-            return None
-
-        for i in range(size):
+        while size != 0:
             id_ = (id_ + self.step - 1) % (len(temp))
             res = temp.pop(id_)
             yield res
@@ -160,7 +157,7 @@ if __name__ == '__main__':
 # see more detials in read_file.py.
     reader = read_file.read_data(
         read_file.Read_csv(), './data', 'people.csv', 'r')
-    ring = Ring(reader, is_list = True)         # read file类中读取的数据已经进行了格式转换，变为list
+    ring = Ring(reader, is_list = False)         # read file类中读取的数据已经进行了格式转换，变为list
 
 ########################################################################
     ring.start = 0
