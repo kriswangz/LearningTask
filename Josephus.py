@@ -51,41 +51,42 @@ class Ring:
     """
      this class is used for solving Josephus problem.
     """
-
+    MAX_DEPTH = 100
+    
     def __init__(self, reader=None, is_list = False):
         self.start = 0
         self.step = 1
-        self.__people = []
-        self.__temp = []        # stage people list.
+        self._people = []
+        self._temp = []        # stage people list.
 
         if reader:
             for i in reader:
-                self.__people.append(Person.create_from_reader(i, is_list))
+                self._people.append(Person.create_from_reader(i, is_list))
 
     def __str__(self):
-        # add magic def. use print(object) to query items depth.
-        return str(len(self.__people))
+        # add magic def. u can use print[object] to query items depth.
+        return str(len(self._people))
 
     def __len__(self):
-        return len(self.__people)
+        return len(self._people)
 
     def append(self, obj):
-        self.__people.append(obj)
+        self._people.append(obj)
 
     def pop(self, index):
-        self.__people.pop(index)
+        self._people.pop(index)
 
     def remove_src(self, src):
-        self.__people.pop(src)
+        self._people.pop(src)
 
     def query_list_all(self):
-        return self.__people
+        return self._people
 
     def query_list_one(self, index):
-        return self.__people[index]
+        return self._people[index]
 
     def iter(self):
-        temp = copy.deepcopy(self.__people)
+        temp = copy.deepcopy(self._people)
         size = len(temp)
         id_ = self.start
 
@@ -147,7 +148,7 @@ class Ring:
 
 if __name__ == '__main__':
 #######################################################################
-# there are 2 ways for generating josephus ring.
+# there are 3 ways for generating josephus ring.
 
 # solution 1:
     #ring = Ring.create_from_txt_csv('./data', 'people.txt', 'r')
@@ -157,7 +158,12 @@ if __name__ == '__main__':
 # see more detials in read_file.py.
     reader = read_file.read_data(
         read_file.Read_csv(), './data', 'people.csv', 'r')
-    ring = Ring(reader, is_list = False)         # read file类中读取的数据已经进行了格式转换，变为list
+    ring = Ring(reader, is_list = False) # read file类中读取的数据已经进行了格式转换，变为list
+
+# solution3 : 
+    # with open('./data/people.csv', 'r') as reader:
+
+    #     ring = Ring(reader, is_list = True)  # open之后返回的是可迭代的对象，没有进行格式转换       
 
 ########################################################################
     ring.start = 0
