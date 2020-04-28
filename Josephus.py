@@ -1,16 +1,17 @@
+'''
+@Author: Chris Wang
+@Date: 2020-04-27 01:59:21
+@LastEditTime: 2020-04-28 16:15:03
+@LastEditors: Please set LastEditors
+@Description: Solve Josephus problem. Counting from the first person, 
+            when count to the step value, he must commit suicide,
+            and then report again from the next, until the last one.
+@FilePath: \LearningTask\Josephus.py
+'''
 # %%
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-"""
-The program is used for solving josephus promblem.
-
-description:
-        Counting from the first person, when count to the step value, he must commit suicide,
-        and then report again from the next, until the last one.
-    
-Author: Chris Wang.
-"""
 import os
 import fileinput
 import zipfile
@@ -19,12 +20,13 @@ import sys
 import read_file
 import csv
 
-
+'''
+@description: return object, one object indicates one person,
+            included name, age and gender.
+@param {name, age, gender} 
+@return: object
+'''
 class Person(object):
-    """
-    return object, one obkect indicates one person,
-    included name, age and gender.
-    """
 
     def __init__(self, name = '', age = '', gender = ''):
         self.name = name
@@ -44,15 +46,22 @@ class Person(object):
 
         return obj
 
-
-class Ring:
+'''
+@description: used for solving Josephus problem.
+            There are 2 ways for updating ring's items(self._people).
+            solution1: Ring.create_from_txt_csv and Ring.create_from_zip, return object.
+            solution2: use reader. reader is a container which saves people's data.
+@param {reader, is_list} 
+@yield: one person object
+'''
+class Ring(object):
     """
-     this class is used for solving Josephus problem.
+     
     """
     MAX_DEPTH = 100
 
-    # reader is a general container, indicates it can save 
-    # list or str data. But the jophusring class need list 
+    # reader is a general container which can save 
+    # list or str data. But the josephus ring class need list 
     # data, so is_list is needed.
     def __init__(self, reader = None, is_list = False):
         self.start = 0
@@ -148,10 +157,10 @@ class Ring:
     Each line reads the order of participants from the file,
     which is create_person in the order of name, age, gender.
 """
-
 if __name__ == '__main__':
+
     #######################################################################
-    # there are 3 ways for generating josephus ring.
+    # there are 2 ways for generating josephus ring.
 
     # solution 1:
     # ring = Ring.create_from_txt_csv('./data', 'people.txt', 'r')
@@ -163,12 +172,7 @@ if __name__ == '__main__':
         read_file.Read_csv(), './data', 'people.csv', 'r')
     ring = Ring(reader, is_list = False)  # read file类中读取的数据已经进行了格式转换，变为list
 
-    # solution3 :
-    # with open('./data/people.csv', 'r') as reader:
-
-    #     ring = Ring(reader, is_list = True)  
-
-########################################################################
+    ########################################################################
     ring.start = 0
     ring.step = 1
 
