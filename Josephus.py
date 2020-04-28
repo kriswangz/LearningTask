@@ -1,7 +1,7 @@
 '''
 @Author: Chris Wang
 @Date: 2020-04-27 01:59:21
-@LastEditTime: 2020-04-28 16:15:03
+@LastEditTime: 2020-04-28 16:16:14
 @LastEditors: Please set LastEditors
 @Description: Solve Josephus problem. Counting from the first person, 
             when count to the step value, he must commit suicide,
@@ -26,15 +26,17 @@ import csv
 @param {name, age, gender} 
 @return: object
 '''
+
+
 class Person(object):
 
-    def __init__(self, name = '', age = '', gender = ''):
+    def __init__(self, name='', age='', gender=''):
         self.name = name
         self.age = age
         self.gender = gender
 
     @classmethod
-    def create_from_reader(cls, item, is_list = False):
+    def create_from_reader(cls, item, is_list=False):
         obj = cls()
 
         if is_list:
@@ -46,6 +48,7 @@ class Person(object):
 
         return obj
 
+
 '''
 @description: used for solving Josephus problem.
             There are 2 ways for updating ring's items(self._people).
@@ -54,16 +57,16 @@ class Person(object):
 @param {reader, is_list} 
 @yield: one person object
 '''
+
+
 class Ring(object):
-    """
-     
-    """
+
     MAX_DEPTH = 100
 
-    # reader is a general container which can save 
-    # list or str data. But the josephus ring class need list 
+    # reader is a general container which can save
+    # list or str data. But the josephus ring class need list
     # data, so is_list is needed.
-    def __init__(self, reader = None, is_list = False):
+    def __init__(self, reader=None, is_list=False):
         self.start = 0
         self.step = 1
         self._people = []
@@ -80,8 +83,8 @@ class Ring(object):
         return len(self._people)
 
     def append(self, obj):
-        if len(self._people) > Ring.MAX_DEPTH :
-            raise Exception('Out of range') 
+        if len(self._people) > Ring.MAX_DEPTH:
+            raise Exception('Out of range')
         else:
             self._people.append(obj)
 
@@ -117,7 +120,7 @@ class Ring(object):
             for row in read_txt:
                 row = read_file.str2list_row(row)
 
-                obj.append(Person(name = row[1], age = row[0], gender = row[2]))
+                obj.append(Person(name=row[1], age=row[0], gender=row[2]))
 
         return obj
 
@@ -144,7 +147,7 @@ class Ring(object):
                 for row in read_txt:
                     row = bytes.decode(row)
                     row = read_file.str2list_row(row)
-                    obj.append(Person(name = row[0], age = row[1], gender = row[2]))
+                    obj.append(Person(name=row[0], age=row[1], gender=row[2]))
             else:
                 raise FileExistsError
 
@@ -166,11 +169,11 @@ if __name__ == '__main__':
     # ring = Ring.create_from_txt_csv('./data', 'people.txt', 'r')
     # ring = Ring.create_from_zip('./data/data.zip', 'people.txt', 'r')
 
-    # solution 2: read_file module inlcuded Read_csv, Read_txt, Read_zip.
-    # see more detials in read_file.py.
+    # solution 2: read_file module included Read_csv, Read_txt, Read_zip.
+    # see more details in read_file.py.
     reader = read_file.read_data(
         read_file.Read_csv(), './data', 'people.csv', 'r')
-    ring = Ring(reader, is_list = False)  # read file类中读取的数据已经进行了格式转换，变为list
+    ring = Ring(reader, is_list=False)  # read file类中读取的数据已经进行了格式转换，变为list
 
     ########################################################################
     ring.start = 0
