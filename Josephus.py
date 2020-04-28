@@ -166,13 +166,13 @@ if __name__ == '__main__':
     # solution3 :
     # with open('./data/people.csv', 'r') as reader:
 
-    #     ring = Ring(reader, is_list = True)  # open之后返回的是可迭代的对象，没有进行格式转换
+    #     ring = Ring(reader, is_list = True)  
 
 ########################################################################
     ring.start = 0
     ring.step = 1
 
-    ring.pop(0)  # 删除第0行的无用数据
+    ring.pop(0)                 # line[0]'s data is not effective data.
 
     res = ring.query_list_all()
     size_res = len(res)         # for iter loops.
