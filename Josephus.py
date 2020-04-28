@@ -1,7 +1,7 @@
 '''
 @Author: Chris Wang
 @Date: 2020-04-27 01:59:21
-@LastEditTime: 2020-04-28 16:16:14
+@LastEditTime: 2020-04-28 16:17:42
 @LastEditors: Please set LastEditors
 @Description: Solve Josephus problem. Counting from the first person, 
             when count to the step value, he must commit suicide,
@@ -154,12 +154,6 @@ class Ring(object):
         return obj
 
 
-"""
-    The format of each object should correspond to the parameters,
-    the object should contain a total of 3 parameters name, age, gender.
-    Each line reads the order of participants from the file,
-    which is create_person in the order of name, age, gender.
-"""
 if __name__ == '__main__':
 
     #######################################################################
