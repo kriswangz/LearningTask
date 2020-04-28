@@ -22,17 +22,15 @@ import csv
 
 class Person(object):
     """
-    create person class.
+    return object, one obkect indicates one person,
+    included name, age and gender.
     """
 
-    def __init__(self, name='', age=' ', gender=''):
+    def __init__(self, name = '', age = '', gender = ''):
         self.name = name
         self.age = age
         self.gender = gender
 
-    # reader表示需要存储到约瑟夫环中的数据（容器），可能是list（经过strip和split处理的）
-    # 也可能是未经处理的数据， 因此这里设置一个判断，若已经处理成符合格式的list数据，
-    # 则进行处理。
     @classmethod
     def create_from_reader(cls, item, is_list = False):
         obj = cls()
@@ -52,26 +50,31 @@ class Ring:
      this class is used for solving Josephus problem.
     """
     MAX_DEPTH = 100
-    
-    def __init__(self, reader=None, is_list = False):
+
+    # reader is a general container, indicates it can save 
+    # list or str data. But the jophusring class need list 
+    # data, so is_list is needed.
+    def __init__(self, reader = None, is_list = False):
         self.start = 0
         self.step = 1
         self._people = []
         self._temp = []        # stage people list.
 
         if reader:
-            for i in reader:
-                self._people.append(Person.create_from_reader(i, is_list))
+            for row in reader:
+                self._people.append(Person.create_from_reader(row, is_list))
 
     def __str__(self):
-        # add magic def. u can use print[object] to query items depth.
         return str(len(self._people))
 
     def __len__(self):
         return len(self._people)
 
     def append(self, obj):
-        self._people.append(obj)
+        if len(self._people) > Ring.MAX_DEPTH :
+            raise Exception('Out of range') 
+        else:
+            self._people.append(obj)
 
     def pop(self, index):
         self._people.pop(index)
@@ -105,7 +108,7 @@ class Ring:
             for row in read_txt:
                 row = read_file.str2list_row(row)
 
-                obj.append(Person(row[0], row[1], row[2]))
+                obj.append(Person(name = row[1], age = row[0], gender = row[2]))
 
         return obj
 
@@ -132,7 +135,7 @@ class Ring:
                 for row in read_txt:
                     row = bytes.decode(row)
                     row = read_file.str2list_row(row)
-                    obj.append(Person(row[0], row[1], row[2]))
+                    obj.append(Person(name = row[0], age = row[1], gender = row[2]))
             else:
                 raise FileExistsError
 
@@ -147,23 +150,23 @@ class Ring:
 """
 
 if __name__ == '__main__':
-#######################################################################
-# there are 3 ways for generating josephus ring.
+    #######################################################################
+    # there are 3 ways for generating josephus ring.
 
-# solution 1:
-    #ring = Ring.create_from_txt_csv('./data', 'people.txt', 'r')
-    #ring = Ring.create_from_zip('./data/data.zip', 'people.txt', 'r')
+    # solution 1:
+    # ring = Ring.create_from_txt_csv('./data', 'people.txt', 'r')
+    # ring = Ring.create_from_zip('./data/data.zip', 'people.txt', 'r')
 
-# solution 2: read_file module inlcuded Read_csv, Read_txt, Read_zip.
-# see more detials in read_file.py.
+    # solution 2: read_file module inlcuded Read_csv, Read_txt, Read_zip.
+    # see more detials in read_file.py.
     reader = read_file.read_data(
         read_file.Read_csv(), './data', 'people.csv', 'r')
-    ring = Ring(reader, is_list = False) # read file类中读取的数据已经进行了格式转换，变为list
+    ring = Ring(reader, is_list = False)  # read file类中读取的数据已经进行了格式转换，变为list
 
-# solution3 : 
+    # solution3 :
     # with open('./data/people.csv', 'r') as reader:
 
-    #     ring = Ring(reader, is_list = True)  # open之后返回的是可迭代的对象，没有进行格式转换       
+    #     ring = Ring(reader, is_list = True)  # open之后返回的是可迭代的对象，没有进行格式转换
 
 ########################################################################
     ring.start = 0
