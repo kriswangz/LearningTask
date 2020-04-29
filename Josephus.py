@@ -1,7 +1,7 @@
 '''
 @Author: Chris Wang
 @Date: 2020-04-27 01:59:21
-@LastEditTime: 2020-04-29 09:39:50
+@LastEditTime: 2020-04-29 09:47:36
 @LastEditors: Please set LastEditors
 @Description: Solve Josephus problem. Counting from the first person, 
             when count to the step value, he must commit suicide,
@@ -17,7 +17,6 @@ import fileinput
 import zipfile
 import copy
 import sys
-import read_file
 import csv
 '''
 @description: return object, one object indicates one person,
@@ -117,7 +116,7 @@ class Ring(object):
             read_txt = fp.readlines()
 
             for row in read_txt:
-                row = read_file.str2list_row(row)
+                row = str2list_row(row)
 
                 obj.append(Person(name=row[1], age=row[0], gender=row[2]))
 
@@ -145,12 +144,13 @@ class Ring(object):
 
                 for row in read_txt:
                     row = bytes.decode(row)
-                    row = read_file.str2list_row(row)
+                    row = str2list_row(row)
                     obj.append(Person(name=row[0], age=row[1], gender=row[2]))
             else:
                 raise FileExistsError
 
         return obj
+
 
 class Read_file(object):
     """
@@ -160,16 +160,6 @@ class Read_file(object):
     def read(self, path, filename, mode='r'):
         raise NotImplementedError
 
-
-def str2list_row(row):
-    """
-    convert str to list in a row.
-    """
-    row = row.strip('\n')   # delete '\n'.
-    row = row.strip('\r')   # delete '\r'.
-    row = row.split(',')
-
-    return row
 
 
 class Read_csv(Read_file):
@@ -234,10 +224,22 @@ class Read_zip(Read_file):
         return cache
 
 
-def read_data(file_obj, path, filename, mode):
+def read_from_files(file_obj, path, filename, mode):
     cache = []
     cache = file_obj.read(path, filename, mode)
     return cache
+
+
+def str2list_row(row):
+    """
+    convert str to list in a row.
+    """
+    row = row.strip('\n')   # delete '\n'.
+    row = row.strip('\r')   # delete '\r'.
+    row = row.split(',')
+
+    return row
+
 
 """
     The format of each object should correspond to the parameters,
@@ -256,8 +258,8 @@ if __name__ == '__main__':
 
     # solution 2: read_file module included Read_csv, Read_txt, Read_zip.
     # see more details in read_file.py.
-    reader = read_file.read_data(
-        read_file.Read_csv(), './data', 'people.csv', 'r')
+    reader = read_from_files(
+        Read_csv(), './data', 'people.csv', 'r')
     ring = Ring(reader, is_list=False)  # read file类中读取的数据已经进行了格式转换，变为list
 
     ########################################################################
