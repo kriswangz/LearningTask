@@ -1,17 +1,17 @@
+# %%
+#!/usr/bin/python3
+# -*- coding: utf-8 -*-
+
 '''
 @Author: Chris Wang
 @Date: 2020-04-27 01:59:21
-@LastEditTime: 2020-04-29 09:57:49
->>>>>>> 5321aa6be8aeaeb5eadbfed02c9af9863808967a
+@LastEditTime: 2020-04-29 14:51:09
 @LastEditors: Please set LastEditors
 @Description: Solve Josephus problem. Counting from the first person, 
             when count to the step value, he must commit suicide,
             and then report again from the next, until the last one.
 @FilePath: \LearningTask\Josephus.py
 '''
-# %%
-#!/usr/bin/python3
-# -*- coding: utf-8 -*-
 
 import os
 import fileinput
@@ -42,9 +42,25 @@ class Person(object):
         if is_list:
             item = item.strip().split(',')
 
-        obj.name = item[0]
-        obj.age = item[1]
-        obj.gender = item[2]
+        name = item[0]
+        if isinstance(name, str) and name.isalpha() == True:
+            obj.name = name
+        else:
+            obj.name = ' '
+        
+        age = item[1]
+        try:
+            age = int(age)
+        except ValueError as e:
+            obj.age = '0'
+        else:
+            obj.age = str(age)
+
+        gender = item[2]    
+        if gender in ('male','female'):
+            obj.gender = gender
+        else:
+            obj.gender = ' '
 
         return obj
 
@@ -166,8 +182,8 @@ class Read_csv(Read_file):
 
     def read(self, path, filename, mode='r'):
         cache = []
-        with open(path + '/' + filename, mode) as csvfile:
-            read_csv = csv.reader(csvfile, delimiter=',')
+        with open(path + '/' + filename, mode) as csv_file:
+            read_csv = csv.reader(csv_file, delimiter=',')
 
             for row in read_csv:
                 cache.append(row)
@@ -271,7 +287,7 @@ if __name__ == '__main__':
 
         if some_one == None:
             break
-
+        
         if i == size_res - 1:
             print("Survivor's name is %s, age is %s, gender is %s" %
                   (some_one.name, some_one.age, some_one.gender))
