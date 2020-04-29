@@ -1,7 +1,7 @@
 '''
 @Author: Chris Wang
 @Date: 2020-04-27 01:59:21
-@LastEditTime: 2020-04-29 09:56:17
+@LastEditTime: 2020-04-29 09:57:49
 >>>>>>> 5321aa6be8aeaeb5eadbfed02c9af9863808967a
 @LastEditors: Please set LastEditors
 @Description: Solve Josephus problem. Counting from the first person, 
@@ -153,8 +153,6 @@ class Ring(object):
 
         return obj
 
-
-<<<<<<< HEAD
 class Read_file(object):
     """
     interface class, for smooth reading.
