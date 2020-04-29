@@ -1,7 +1,8 @@
 '''
 @Author: Chris Wang
 @Date: 2020-04-27 01:59:21
-@LastEditTime: 2020-04-29 09:53:08
+@LastEditTime: 2020-04-29 09:56:17
+>>>>>>> 5321aa6be8aeaeb5eadbfed02c9af9863808967a
 @LastEditors: Please set LastEditors
 @Description: Solve Josephus problem. Counting from the first person, 
             when count to the step value, he must commit suicide,
@@ -153,6 +154,7 @@ class Ring(object):
         return obj
 
 
+<<<<<<< HEAD
 class Read_file(object):
     """
     interface class, for smooth reading.
@@ -247,6 +249,7 @@ def str2list_row(row):
     Each line reads the order of participants from the file,
     which is create_person in the order of name, age, gender.
 """
+
 if __name__ == '__main__':
 
  
