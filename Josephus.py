@@ -1,7 +1,7 @@
 '''
 @Author: Chris Wang
 @Date: 2020-04-27 01:59:21
-@LastEditTime: 2020-04-29 09:47:36
+@LastEditTime: 2020-04-29 09:53:08
 @LastEditors: Please set LastEditors
 @Description: Solve Josephus problem. Counting from the first person, 
             when count to the step value, he must commit suicide,
@@ -18,6 +18,7 @@ import zipfile
 import copy
 import sys
 import csv
+
 '''
 @description: return object, one object indicates one person,
             included name, age and gender.
@@ -161,7 +162,6 @@ class Read_file(object):
         raise NotImplementedError
 
 
-
 class Read_csv(Read_file):
 
     def read(self, path, filename, mode='r'):
@@ -249,20 +249,11 @@ def str2list_row(row):
 """
 if __name__ == '__main__':
 
-    #######################################################################
-    # there are 2 ways for generating josephus ring.
-
-    # solution 1:
-    # ring = Ring.create_from_txt_csv('./data', 'people.txt', 'r')
-    # ring = Ring.create_from_zip('./data/data.zip', 'people.txt', 'r')
-
-    # solution 2: read_file module included Read_csv, Read_txt, Read_zip.
-    # see more details in read_file.py.
+ 
     reader = read_from_files(
         Read_csv(), './data', 'people.csv', 'r')
     ring = Ring(reader, is_list=False)  # read file类中读取的数据已经进行了格式转换，变为list
 
-    ########################################################################
     ring.start = 0
     ring.step = 1
 
