@@ -172,7 +172,7 @@ class Ring(object):
 
         return obj
 
-class Read_file(object):
+class ReadFile(object):
     """
     interface class, for smooth reading.
     """
@@ -181,7 +181,7 @@ class Read_file(object):
         raise NotImplementedError
 
 
-class Read_csv(Read_file):
+class ReadCSV(ReadFile):
 
     def read(self, path, filename, mode='r'):
         cache = []
@@ -194,7 +194,7 @@ class Read_csv(Read_file):
         return cache
 
 
-class Read_txt(Read_file):
+class ReadTXT(ReadFile):
 
     def read(self, path, filename, mode='r'):
         cache = []
@@ -208,7 +208,7 @@ class Read_txt(Read_file):
         return cache
 
 
-class Read_zip(Read_file):
+class ReadZIP(ReadFile):
     """
     only read .csv and .txt files function in zip files is supported.
     if u wanna support more file types, please add your program in 
@@ -271,7 +271,7 @@ if __name__ == '__main__':
 
  
     reader = read_from_files(
-        Read_csv(), './data', 'people.csv', 'r')
+        ReadCSV(), './data', 'people.csv', 'r')
     ring = Ring(reader, is_list=False)  # read file类中读取的数据已经进行了格式转换，变为list
 
     ring.start = 0
