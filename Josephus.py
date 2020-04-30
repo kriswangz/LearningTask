@@ -53,8 +53,11 @@ class Person(object):
             age = int(age)
         except ValueError as e:
             obj.age = '0'
-        else:
-            obj.age = str(age)
+        else:  
+            if age < 0:
+                obj.age = '0'
+            else:
+                obj.age = str(age)
 
         gender = item[2]    
         if gender in ('male','female'):
