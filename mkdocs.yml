@@ -1,0 +1,10 @@
+site_name: pytest-kriswangz
+site_description: this is a test program
+site_author: Chris Wang
+
+theme: readthedocs
+
+repo_url: https://github.com/kriswangz/pytest-kriswangz
+
+pages:
+- Home: index.md
