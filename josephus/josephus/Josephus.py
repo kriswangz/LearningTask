@@ -16,11 +16,12 @@
 import os
 import copy
 import sys
+import zipfile
 
+from file_adapter import read_files
+from person import person
 # description: return object, one object indicates one person,
 #             included name, age and gender.
-
-
 
 
 
@@ -50,7 +51,7 @@ class Ring(object):
 
         if reader:
             for row in reader:
-                self._people.append(Person.create_from_reader(row, is_list))
+                self._people.append(person.Person.create_from_reader(row, is_list))
 
     def __str__(self):
         return str(len(self._people))
@@ -91,9 +92,9 @@ class Ring(object):
             read_txt = fp.readlines()
 
             for row in read_txt:
-                row = str2list_row(row)
+                row = read_files.str2list_row(row)
 
-                obj.append(Person(name=row[1], age=row[0], gender=row[2]))
+                obj.append(person.Person(name=row[1], age=row[0], gender=row[2]))
 
         return obj
 
@@ -119,8 +120,8 @@ class Ring(object):
 
                 for row in read_txt:
                     row = bytes.decode(row)
-                    row = str2list_row(row)
-                    obj.append(Person(name=row[0], age=row[1], gender=row[2]))
+                    row = read_files.str2list_row(row)
+                    obj.append(person.Person(name=row[0], age=row[1], gender=row[2]))
             else:
                 raise FileExistsError
 
