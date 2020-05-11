@@ -67,9 +67,6 @@ class Ring(object):
     def pop(self, index):
         self._people.pop(index)
 
-    def remove_src(self, src):
-        self._people.pop(src)
-
     def query_list_all(self):
         return self._people
 
