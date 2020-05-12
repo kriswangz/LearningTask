@@ -134,6 +134,3 @@ def read_from_files(file_obj, path, filename, mode):
     cache = []
     cache = file_obj.read(path, filename, mode)
     return cache
-
-
-DomainModel.register(Ring)
