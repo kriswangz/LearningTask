@@ -18,8 +18,8 @@ import copy
 import sys
 import zipfile
 
-from file_adapter import read_files
-from person import person
+from josephus.file_adapter import read_files
+from josephus.person import person
 # description: return object, one object indicates one person,
 #             included name, age and gender.
 

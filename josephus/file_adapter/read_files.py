@@ -1,5 +1,5 @@
 
-from person.readfiles import ReadFiles
+from josephus.person.readfiles import ReadFiles
 import csv
 import zipfile
 
