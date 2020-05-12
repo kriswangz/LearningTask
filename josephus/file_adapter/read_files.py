@@ -4,7 +4,7 @@ import csv
 import zipfile
 
 # implement subclass of ReadFIles class in person/readfiles.py
-class ReadCSV(ReadFiles):
+class ReadCSV(object):
 
     def __init__(self, path, filename):
         self.path = path
@@ -20,8 +20,9 @@ class ReadCSV(ReadFiles):
 
         return cache
 
+ReadFiles.register(ReadCSV)
 
-class ReadTXT(ReadFiles):
+class ReadTXT(object):
 
     def __init__(self, path, filename):
         self.path = path
@@ -38,6 +39,7 @@ class ReadTXT(ReadFiles):
 
         return cache
 
+ReadFiles.register(ReadTXT)
 
 class ReadZIP(ReadFiles):
     """
@@ -75,6 +77,8 @@ class ReadZIP(ReadFiles):
                 raise FileExistsError
 
         return cache
+
+ReadFiles.register(ReadZIP)
 
 def str2list_row(row):
     """
