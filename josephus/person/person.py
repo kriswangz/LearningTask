@@ -2,23 +2,20 @@
 # 返回对象
 class Person(object):
     
-    def __init__(self, name='', age='', gender=''):
+    def __init__(self, name=None, age='0', gender=None):
         self.name = name
         self.age = age
         self.gender = gender
 
     @classmethod
-    def create_from_reader(cls, item, is_list=False):
+    def create_from_reader(cls, item):
         obj = cls()
-
-        if is_list:
-            item = item.strip().split(',')
 
         name = item[0]
         if isinstance(name, str) and name.isalpha() == True:
             obj.name = name
         else:
-            obj.name = ' '
+            obj.name = None
         
         age = item[1]
         try:
@@ -35,7 +32,7 @@ class Person(object):
         if gender in ('male','female'):
             obj.gender = gender
         else:
-            obj.gender = ' '
+            obj.gender = None
 
         return obj
 
