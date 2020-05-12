@@ -4,6 +4,4 @@ import abc
 # Sub class of ReadFiles must implement read function or errors would occur.
 class ReadFiles(metaclass=abc.ABCMeta):
 
-    @abc.abstractclassmethod
-    def read(self, path, filename, mode='r'):
-        raise NotImplementedError
+    pass
