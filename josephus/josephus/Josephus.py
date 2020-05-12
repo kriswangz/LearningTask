@@ -20,6 +20,7 @@ import zipfile
 
 from josephus.file_adapter import read_files
 from josephus.person import person
+
 # description: return object, one object indicates one person,
 #             included name, age and gender.
 
@@ -43,7 +44,7 @@ class Ring(object):
     # reader is a general container which can save
     # list or str data. But the josephus ring class need list
     # data, so is_list is needed.
-    def __init__(self, reader=None, is_list=False):
+    def __init__(self, reader=None):
         self.start = 0
         self.step = 1
         self._people = []
@@ -51,7 +52,7 @@ class Ring(object):
 
         if reader:
             for row in reader:
-                self._people.append(person.Person.create_from_reader(row, is_list))
+                self._people.append(person.Person.create_from_reader(row))
 
     def __str__(self):
         return str(len(self._people))
