@@ -1,11 +1,19 @@
 
 # 返回对象
+
+
 class Person(object):
-    
+
     def __init__(self, name=None, age='0', gender=None):
         self.name = name
         self.age = age
         self.gender = gender
+
+    def __eq__(self, obj):
+        if self.name == obj.name and self.age == obj.age and self.gender == obj.gender:
+            return True
+        else:
+            return False
 
     @classmethod
     def create_from_reader(cls, item):
@@ -16,23 +24,22 @@ class Person(object):
             obj.name = name
         else:
             obj.name = None
-        
+
         age = item[1]
         try:
             age = int(age)
         except ValueError:
             obj.age = '0'
-        else:  
+        else:
             if age < 0:
                 obj.age = '0'
             else:
                 obj.age = str(age)
 
-        gender = item[2]    
-        if gender in ('male','female'):
+        gender = item[2]
+        if gender in ('male', 'female'):
             obj.gender = gender
         else:
             obj.gender = None
 
         return obj
-
