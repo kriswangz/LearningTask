@@ -21,6 +21,7 @@ import zipfile
 from josephus.file_adapter import read_files
 from josephus.person import person
 
+from typing import List, Iterator
 # description: return object, one object indicates one person,
 #             included name, age and gender.
 
@@ -39,43 +40,43 @@ from josephus.person import person
 
 class Ring(object):
 
-    MAX_DEPTH = 100
+    MAX_DEPTH = 100 #type: int
 
     # reader is a general container which can save
     # list or str data. But the josephus ring class need list
     # data, so is_list is needed.
-    def __init__(self, reader=None):
-        self.start = 0
-        self.step = 1
-        self._people = []
-        self._temp = []        # stage people list.
+    def __init__(self, reader: list=None):
+        self.start = 0          #type: int
+        self.step = 1           #type: int
+        self._people = []       #type: List
+        self._temp = []         #type: List 
 
         if reader:
             for row in reader:
                 self._people.append(person.Person.create_from_reader(row))
 
-    def __str__(self):
+    def __str__(self) ->str:
         return str(len(self._people))
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self._people)
 
-    def append(self, obj):
+    def append(self, obj) -> None:
         if len(self._people) > Ring.MAX_DEPTH:
             raise Exception('Out of range')
         else:
             self._people.append(obj)
 
-    def pop(self, index):
+    def pop(self, index)-> None:
         self._people.pop(index)
 
-    def query_list_all(self):
+    def query_list_all(self) -> List:
         return self._people
 
-    def query_list_one(self, index):
+    def query_list_one(self, index) -> List:
         return self._people[index]
 
-    def iter(self):
+    def iter(self) -> Iterator[List]:
         temp = copy.deepcopy(self._people)
         size = len(temp)
         id_ = self.start
@@ -86,7 +87,7 @@ class Ring(object):
             yield res
 
     @classmethod
-    def create_from_txt_csv(cls, path, filename, mode):
+    def create_from_txt_csv(cls, path: str, filename: str, mode: str) -> 'Ring':
         obj = cls()
 
         with open(path + '/' + filename, mode) as fp:
@@ -100,7 +101,7 @@ class Ring(object):
         return obj
 
     @classmethod
-    def create_from_zip(cls, path, filename, mode):
+    def create_from_zip(cls, path: str, filename: str, mode: str) -> 'Ring':
         obj = cls()
 
         with zipfile.ZipFile(path, mode) as z:
@@ -127,11 +128,3 @@ class Ring(object):
                 raise FileExistsError
 
         return obj
-
-
-
-
-def read_from_files(file_obj, path, filename, mode):
-    cache = []
-    cache = file_obj.read(path, filename, mode)
-    return cache
