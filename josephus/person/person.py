@@ -1,15 +1,15 @@
-
+from typing import List, Any
 # 返回对象
 
 
 class Person(object):
 
-    def __init__(self, name=None, age='0', gender=None):
+    def __init__(self, name: str=None, age: str='0', gender: str=None) -> None:
         self.name = name
         self.age = age
         self.gender = gender
 
-    def __eq__(self, obj):
+    def __eq__(self, obj) -> bool:
         if self.name == obj.name and self.age == obj.age and self.gender == obj.gender:
             return True
         else:
