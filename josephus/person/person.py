@@ -4,7 +4,7 @@ from typing import List, Any
 
 class Person(object):
 
-    def __init__(self, name: str=None, age: str='0', gender: str=None) -> None:
+    def __init__(self, name=None, age='0', gender=None) -> None:
         self.name = name
         self.age = age
         self.gender = gender
